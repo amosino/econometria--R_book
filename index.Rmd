@@ -13,4 +13,4 @@ github-repo: amosino/econometria--R_book
 description: "Este es un libro introductorio de econometría con enfoque práctico."
 ---
 
-# Prologo {-}
+# Prólogo {-}
