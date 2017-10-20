@@ -6,9 +6,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Apuntes de Econometría</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="Este es un libro introductorio de econometría con enfoque práctico.">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
 
   <meta property="og:title" content="Apuntes de Econometría" />
   <meta property="og:type" content="book" />
@@ -26,7 +25,7 @@
 <meta name="author" content="Alejandro Mosiño">
 
 
-<meta name="date" content="2017-10-19">
+<meta name="date" content="2017-10-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -35,7 +34,6 @@
   
 <link rel="prev" href="index.html">
 <link rel="next" href="el-modelo-de-regresion-simple.html">
-
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -94,6 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <body>
 
 
+
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
 
     <div class="book-summary">
@@ -102,7 +101,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a></li>
 <li class="chapter" data-level="1" data-path="motivacion.html"><a href="motivacion.html"><i class="fa fa-check"></i><b>1</b> Motivación</a></li>
-<li class="chapter" data-level="2" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html"><i class="fa fa-check"></i><b>2</b> El modelo de regresión simple</a></li>
+<li class="chapter" data-level="2" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html"><i class="fa fa-check"></i><b>2</b> El modelo de regresión simple</a><ul>
+<li class="chapter" data-level="2.1" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html#minimizacion-de-sum_i1ne_i"><i class="fa fa-check"></i><b>2.1</b> Minimización de <span class="math inline">\(\sum_{i=1}^{N}e_i\)</span></a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -123,13 +124,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="motivacion" class="section level1">
 <h1><span class="header-section-number">Capítulo 1</span> Motivación</h1>
 <p>En lo que sigue, utilizaremos los datos alojados en la siguiente dirección:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">root_dir &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="st">&quot;/Users&quot;</span>,<span class="st">&quot;alejandro.mosino&quot;</span>,<span class="st">&quot;Documents&quot;</span>,
-<span class="st">&quot;cursos&quot;</span>,<span class="st">&quot;econometria&quot;</span>,<span class="st">&quot;econometria--R_book&quot;</span>,<span class="st">&quot;_data_econometria&quot;</span>)
-knitr<span class="op">::</span>opts_knit<span class="op">$</span><span class="kw">set</span>(<span class="dt">root.dir =</span>root_dir)</code></pre></div>
 <p>Para comenzar, considera los siguientes datos sobre la esperanza de vida y el ingreso per-cápita:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data&lt;-<span class="kw">read.csv</span>(<span class="st">&quot;lif_exp4.csv&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>)
-
-knitr<span class="op">::</span><span class="kw">kable</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data&lt;-<span class="kw">read.csv</span>(<span class="kw">file.path</span>(<span class="st">&quot;/Users&quot;</span>,<span class="st">&quot;alejandro.mosino&quot;</span>,<span class="st">&quot;Documents&quot;</span>,
+<span class="st">&quot;github&quot;</span>,<span class="st">&quot;econometria--R_book&quot;</span>,<span class="st">&quot;_data_econometria&quot;</span>,<span class="st">&quot;lif_exp4.csv&quot;</span>), <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>)
+knitr::<span class="kw">kable</span>(
 data, <span class="dt">caption =</span> <span class="st">&#39;Datos sobre ingreso per-cápita y esperanza de vida para cuatro países seleccionados. Fuente: CIA World Factbook (2016).&#39;</span>,
 <span class="dt">booktabs =</span> <span class="ot">TRUE</span>
 )</code></pre></div>
@@ -167,7 +165,7 @@ data, <span class="dt">caption =</span> <span class="st">&#39;Datos sobre ingres
 </table>
 <p>De la Tabla <a href="motivacion.html#tab:ciawfb4-tab">1.1</a> obtenemos la siguiente relación:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(data,<span class="kw">plot</span>(rgdp,life_exp, <span class="dt">xlab=</span><span class="st">&quot;Ingreso per cápita&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Esperanza de vida&quot;</span>))
-<span class="kw">text</span>(data<span class="op">$</span>rgdp,data<span class="op">$</span>life_exp,<span class="dt">labels=</span>data<span class="op">$</span>country, <span class="dt">pos=</span><span class="dv">4</span>)</code></pre></div>
+<span class="kw">text</span>(data$rgdp,data$life_exp,<span class="dt">labels=</span>data$country, <span class="dt">pos=</span><span class="dv">4</span>)</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:ciawfb4-fig"></span>
 <img src="ApEconometria_files/figure-html/ciawfb4-fig-1.png" alt="Relación entre el ingreso per cápita y la esperanza de vida para 4 países seleccionados" width="80%" />
 <p class="caption">
@@ -176,7 +174,8 @@ Figura 1.1: Relación entre el ingreso per cápita y la esperanza de vida para 4
 </div>
 <p>Los países más ricos parecen tener una esperanza de vida más elevada. El país más pobre, Nigeria en nuestro ejemplo, tiene la esperanza más baja de los cuatro países considerados.</p>
 <p>Sin embargo, cuando tenemos tan pocos datos no es posible realizar inferencia alguna. Conviene entonces repetir el experimento utilizando más países.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_full&lt;-<span class="kw">read.csv</span>(<span class="st">&quot;lif_exp.csv&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_full&lt;-data&lt;-<span class="kw">read.csv</span>(<span class="kw">file.path</span>(<span class="st">&quot;/Users&quot;</span>,<span class="st">&quot;alejandro.mosino&quot;</span>,<span class="st">&quot;Documents&quot;</span>,
+<span class="st">&quot;github&quot;</span>,<span class="st">&quot;econometria--R_book&quot;</span>,<span class="st">&quot;_data_econometria&quot;</span>,<span class="st">&quot;lif_exp.csv&quot;</span>), <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>)
 <span class="kw">head</span>(data_full)</code></pre></div>
 <pre><code>##             pais  rgdp life_exp
 ## 1    Afghanistan  2000     51.3
@@ -186,7 +185,7 @@ Figura 1.1: Relación entre el ingreso per cápita y la esperanza de vida para 4
 ## 5        Andorra 37200     82.8
 ## 6         Angola  6800     56.0</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(data_full,<span class="kw">plot</span>(rgdp,life_exp,<span class="dt">xlab=</span><span class="st">&quot;Ingreso per cápita&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Esperanza de vida&quot;</span>))
-<span class="kw">with</span>(data_full,<span class="kw">abline</span>(<span class="kw">lm</span>(life_exp <span class="op">~</span><span class="st"> </span>rgdp)))</code></pre></div>
+<span class="kw">with</span>(data_full,<span class="kw">abline</span>(<span class="kw">lm</span>(life_exp ~<span class="st"> </span>rgdp)))</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:ciawfb-fig"></span>
 <img src="ApEconometria_files/figure-html/ciawfb-fig-1.png" alt="Relación entre el ingreso per cápita y la esperanza de vida" width="80%" />
 <p class="caption">
@@ -208,8 +207,9 @@ y_i = \beta_1 + \beta_2 x_i + u_i \tag{1.1}
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="el-modelo-de-regresion-simple.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
-
+<a href="el-modelo-de-regresion-simple.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
@@ -218,7 +218,7 @@ y_i = \beta_1 + \beta_2 x_i + u_i \tag{1.1}
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
@@ -252,7 +252,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(script.src))
       script.src  = script.src.replace(/^https?:/, '');
     document.getElementsByTagName("head")[0].appendChild(script);

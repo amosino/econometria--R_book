@@ -2,17 +2,12 @@
 
 En lo que sigue, utilizaremos los datos alojados en la siguiente dirección:
 
-```{r setup}
-root_dir <- file.path("/Users","alejandro.mosino","Documents",
-"cursos","econometria","econometria--R_book","_data_econometria")
-knitr::opts_knit$set(root.dir =root_dir)
-```
 Para comenzar, considera los siguientes datos sobre la esperanza de vida y el ingreso per-cápita:
 
 ```{r ciawfb4-tab, tidy=FALSE}
 
-data<-read.csv("lif_exp4.csv", header=TRUE, sep=",")
-
+data<-read.csv(file.path("/Users","alejandro.mosino","Documents",
+"github","econometria--R_book","_data_econometria","lif_exp4.csv"), header=TRUE, sep=",")
 knitr::kable(
 data, caption = 'Datos sobre ingreso per-cápita y esperanza de vida para cuatro países seleccionados. Fuente: CIA World Factbook (2016).',
 booktabs = TRUE
@@ -33,7 +28,8 @@ Sin embargo, cuando tenemos tan pocos datos no es posible realizar inferencia al
 
 ```{r ciawfb-fig, fig.cap='Relación entre el ingreso per cápita y la esperanza de vida', out.width='80%', fig.asp=.75, fig.align='center'}
 
-data_full<-read.csv("lif_exp.csv", header=TRUE, sep=",")
+data_full<-data<-read.csv(file.path("/Users","alejandro.mosino","Documents",
+"github","econometria--R_book","_data_econometria","lif_exp.csv"), header=TRUE, sep=",")
 head(data_full)
 with(data_full,plot(rgdp,life_exp,xlab="Ingreso per cápita", ylab="Esperanza de vida"))
 with(data_full,abline(lm(life_exp ~ rgdp)))

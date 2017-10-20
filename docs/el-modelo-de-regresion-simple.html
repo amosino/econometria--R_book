@@ -6,9 +6,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Apuntes de Econometría</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="Este es un libro introductorio de econometría con enfoque práctico.">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
 
   <meta property="og:title" content="Apuntes de Econometría" />
   <meta property="og:type" content="book" />
@@ -26,7 +25,7 @@
 <meta name="author" content="Alejandro Mosiño">
 
 
-<meta name="date" content="2017-10-19">
+<meta name="date" content="2017-10-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,7 +33,6 @@
   
   
 <link rel="prev" href="motivacion.html">
-
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -94,6 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <body>
 
 
+
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
 
     <div class="book-summary">
@@ -102,7 +101,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a></li>
 <li class="chapter" data-level="1" data-path="motivacion.html"><a href="motivacion.html"><i class="fa fa-check"></i><b>1</b> Motivación</a></li>
-<li class="chapter" data-level="2" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html"><i class="fa fa-check"></i><b>2</b> El modelo de regresión simple</a></li>
+<li class="chapter" data-level="2" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html"><i class="fa fa-check"></i><b>2</b> El modelo de regresión simple</a><ul>
+<li class="chapter" data-level="2.1" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html#minimizacion-de-sum_i1ne_i"><i class="fa fa-check"></i><b>2.1</b> Minimización de <span class="math inline">\(\sum_{i=1}^{N}e_i\)</span></a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -128,7 +129,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 \mathbb{E}(y_i | x_i) = \beta_1 + \beta_2 x_i.
 \end{equation}\]</span>
 <p>La fórmula anterior implica que, si conociéramos los valores de <span class="math inline">\(\beta_1\)</span> y <span class="math inline">\(\beta_2\)</span>, la línea que estamos buscando partiría de <span class="math inline">\(\beta_1\)</span> y tendría pendiente <span class="math inline">\(\beta_2\)</span>.</p>
-<p>Por otra parte, el componente aleatorio es <span class="math inline">\(u_i\)</span>. En otras palabras, <span class="math inline">\(u_i\)</span> es un componente desconocido que no nos permite calcular con certeza los valores de <span class="math inline">\(y_i\)</span> a partir de la ecuación <a href="motivacion.html#eq:mrs">(1.1)</a>. Pero, ¿porqué existe este <span class="math inline">\(u_i\)</span>?</p>
+<p>Por otra parte, el componente aleatorio es <span class="math inline">\(u_i\)</span>. En otras palabras, <span class="math inline">\(u_i\)</span> es un componente desconocido que no nos permite calcular con certeza los valores de <span class="math inline">\(y_i\)</span> a partir de la ecuación <a href="motivacion.html#eq:mrs">(1.1)</a>.</p>
+<p>Pero, ¿porqué existe este <span class="math inline">\(u_i\)</span>?</p>
 <p>La inclusión de <span class="math inline">\(u_i\)</span> en el modelo se justifica por las siguientes razones:</p>
 <ul>
 <li>La posible omisión de variables explicativas.</li>
@@ -142,12 +144,45 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 \widehat{y}_i= b_1 + b_2 x_i.
 \end{equation}\]</span>
 <p>Aunque esta línea podría bien trazarse a <em>ojo de buen cubero</em>, existen algunas técnicas formales, todas ellas involurando al <em>residual de estimación</em>. Este está definido como:</p>
-<span class="math display">\[\begin{aligned}
-e_i &amp;= y_i - \hat{y}_i \\
-    &amp;= y_i - b_1 - b_2 x_i
-\end{aligned}\]</span>
+<span class="math display" id="eq:mrs-res">\[\begin{align}
+e_i &amp;= y_i - \widehat{y}_i \\
+    &amp;= y_i - b_1 - b_2 x_i \tag{2.1}
+\end{align}\]</span>
 <p>Naturalmente, el objetivo es encontrar <span class="math inline">\(b_1\)</span> y <span class="math inline">\(b_2\)</span> tal que los valores de <span class="math inline">\(e_i\)</span> sean los más bajos posibles.</p>
+<div id="minimizacion-de-sum_i1ne_i" class="section level2">
+<h2><span class="header-section-number">2.1</span> Minimización de <span class="math inline">\(\sum_{i=1}^{N}e_i\)</span></h2>
+<p>Como primera opción para estimar los coeficientes de la ecuación <a href="el-modelo-de-regresion-simple.html#eq:mrs-res">(2.1)</a>, podríamos intentar resolver el siguiente problema:</p>
+<span class="math display">\[\begin{align}
+\min_{b_1,b_2}\sum_{i=1}^{N}e_i &amp;= \min_{b_1,b_2}\sum_{i=1}^{N}(y_i - \widehat{y}_i)\\
+&amp;= \min_{b_1,b_2}\sum_{i=1}^{N}(y_i - y_i - b_1 - b_2 x_i).
+\end{align}\]</span>
+<p>Sin embargo, notemos que si fijamos:</p>
+<span class="math display">\[\begin{align}
+b_1 &amp;= \overline{y}=\frac{1}{N} \sum_{i=1}^{N} y_i\\
+b_2 &amp;= 0,
+\end{align}\]</span>
+<p>obtenemos que:</p>
+<span class="math display">\[\begin{equation}
+\sum_{i=1}^{N}e_i = 0,
+\end{equation}\]</span>
+es decir, la suma de los residuales es cero (su valor mínimo) y:
+<span class="math display">\[\begin{equation}
+\widehat{y}_i = \overline{y}.
+\end{equation}\]</span>
+<p>El resultado anterior implica que siempre podríamos obtener una línea horizontal sobre <span class="math inline">\(\overline{y}\)</span>. Esto, naturalmente, no parece ser una buena aproximación, sean cuales sean los datos analizados. Para nuestro ejemplo de la esperanza de vida, esta aproximación resultaría en la siguiente línea de estimación y coeficientes:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_full&lt;-<span class="kw">read.csv</span>(<span class="kw">file.path</span>(<span class="st">&quot;/Users&quot;</span>,<span class="st">&quot;alejandro.mosino&quot;</span>,<span class="st">&quot;Documents&quot;</span>,<span class="st">&quot;github&quot;</span>,<span class="st">&quot;econometria--R_book&quot;</span>,<span class="st">&quot;_data_econometria&quot;</span>,<span class="st">&quot;lif_exp.csv&quot;</span>), <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>)
+b1 &lt;-<span class="st"> </span><span class="kw">mean</span>(data_full$life_exp)
+b2 &lt;-<span class="st"> </span><span class="dv">0</span>
+<span class="kw">with</span>(data_full,<span class="kw">plot</span>(rgdp,life_exp,<span class="dt">xlab=</span><span class="st">&quot;Ingreso per cápita&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Esperanza de vida&quot;</span>))
+<span class="kw">abline</span>(<span class="dt">a=</span>b1, <span class="dt">b=</span>b2)</code></pre></div>
+<p><img src="ApEconometria_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;El valor estimado b1 es: &quot;</span>, b1))</code></pre></div>
+<pre><code>## [1] &quot;El valor estimado b1 es: 72.5152466367713&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;El valor estimado b2 es: &quot;</span>, b2))</code></pre></div>
+<pre><code>## [1] &quot;El valor estimado b2 es: 0&quot;</code></pre>
+<p>Compara este resultado con el presentado en la sección anterior. ¿Cuál te parece mejor?</p>
 
+</div>
 </div>
             </section>
 
@@ -156,7 +191,8 @@ e_i &amp;= y_i - \hat{y}_i \\
       </div>
 <a href="motivacion.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
@@ -165,7 +201,7 @@ e_i &amp;= y_i - \hat{y}_i \\
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
@@ -199,7 +235,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(script.src))
       script.src  = script.src.replace(/^https?:/, '');
     document.getElementsByTagName("head")[0].appendChild(script);

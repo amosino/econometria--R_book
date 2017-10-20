@@ -10,7 +10,9 @@ La parte no aleatoria puede definirse como:
 
 La fórmula anterior implica que, si conociéramos los valores de $\beta_1$ y $\beta_2$, la línea que estamos buscando partiría de $\beta_1$ y tendría pendiente $\beta_2$.
 
-Por otra parte, el componente aleatorio es $u_i$. En otras palabras, $u_i$ es un componente desconocido que no nos permite calcular con certeza los valores de $y_i$ a partir de la ecuación \@ref(eq:mrs). Pero, ¿porqué existe este $u_i$?
+Por otra parte, el componente aleatorio es $u_i$. En otras palabras, $u_i$ es un componente desconocido que no nos permite calcular con certeza los valores de $y_i$ a partir de la ecuación \@ref(eq:mrs). 
+
+Pero, ¿porqué existe este $u_i$?
 
 La inclusión de $u_i$ en el modelo se justifica por las siguientes razones:
 
@@ -29,9 +31,48 @@ Lo anterior implica que, dado que no es posible encontrar la línea _verdadera_ 
 
 Aunque esta línea podría bien trazarse a _ojo de buen cubero_, existen algunas técnicas formales, todas ellas involurando al _residual de estimación_. Este está definido como:
 
-\begin{aligned}
-e_i &= y_i - \hat{y}_i \\
-    &= y_i - b_1 - b_2 x_i
-\end{aligned}
+\begin{align}
+e_i &= y_i - \widehat{y}_i \\
+    &= y_i - b_1 - b_2 x_i (\#eq:mrs-res)
+\end{align}
 
 Naturalmente, el objetivo es encontrar  $b_1$ y $b_2$ tal que los valores de $e_i$ sean los más bajos posibles.
+
+## Minimización de $\sum_{i=1}^{N}e_i$
+
+Como primera opción para estimar los coeficientes de la ecuación \@ref(eq:mrs-res), podríamos intentar resolver el siguiente problema:
+
+\begin{align}
+\min_{b_1,b_2}\sum_{i=1}^{N}e_i &= \min_{b_1,b_2}\sum_{i=1}^{N}(y_i - \widehat{y}_i)\\
+&= \min_{b_1,b_2}\sum_{i=1}^{N}(y_i - y_i - b_1 - b_2 x_i).
+\end{align}
+
+Sin embargo, notemos que si fijamos:
+
+\begin{align}
+b_1 &= \overline{y}=\frac{1}{N} \sum_{i=1}^{N} y_i\\
+b_2 &= 0,
+\end{align}
+obtenemos que:
+
+\begin{equation}
+\sum_{i=1}^{N}e_i = 0,
+\end{equation}
+es decir, la suma de los residuales es cero (su valor mínimo) y:
+\begin{equation}
+\widehat{y}_i = \overline{y}.
+\end{equation}
+El resultado anterior implica que siempre podríamos obtener una línea horizontal sobre $\overline{y}$. Esto, naturalmente, no parece ser una buena aproximación, sean cuales sean los datos analizados. Para nuestro ejemplo de la esperanza de vida, esta aproximación resultaría en la siguiente línea de estimación y coeficientes:
+
+```{r}
+data_full<-read.csv(file.path("/Users","alejandro.mosino","Documents","github","econometria--R_book","_data_econometria","lif_exp.csv"), header=TRUE, sep=",")
+b1 <- mean(data_full$life_exp)
+b2 <- 0
+with(data_full,plot(rgdp,life_exp,xlab="Ingreso per cápita", ylab="Esperanza de vida"))
+abline(a=b1, b=b2)
+print(paste0("El valor estimado b1 es: ", b1))
+print(paste0("El valor estimado b2 es: ", b2))
+```
+
+Compara este resultado con el presentado en la sección anterior. ¿Cuál te parece mejor?
+
