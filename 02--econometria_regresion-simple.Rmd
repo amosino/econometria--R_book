@@ -1,0 +1,37 @@
+# El modelo de regresión simple
+
+Nota que la fórmula para $y_i$ que hemos aprendido (ecuación \@ref(eq:mrs) de la sección anterior) tiene dos componentes: 1) parte no aleatoria y 2) parte aleatoria.
+
+La parte no aleatoria puede definirse como:
+
+\begin{equation}
+\mathbb{E}(y_i | x_i) = \beta_1 + \beta_2 x_i.
+\end{equation}
+
+La fórmula anterior implica que, si conociéramos los valores de $\beta_1$ y $\beta_2$, la línea que estamos buscando partiría de $\beta_1$ y tendría pendiente $\beta_2$.
+
+Por otra parte, el componente aleatorio es $u_i$. En otras palabras, $u_i$ es un componente desconocido que no nos permite calcular con certeza los valores de $y_i$ a partir de la ecuación \@ref(eq:mrs). Pero, ¿porqué existe este $u_i$?
+
+La inclusión de $u_i$ en el modelo se justifica por las siguientes razones:
+
+* La posible omisión de variables explicativas.
+* Una posible agregación incorrecta de variables.
+* Una posible especificación incorrecta del modelo.
+* La posible elección de una forma funcional incorrecta.
+* Por posibles errores de medición.
+
+Lo anterior implica que, dado que no es posible encontrar la línea _verdadera_ delimitada por $\mathbb{E}(y_i)$, esta tiene que ser aproximada. Esta aproximación resulta en la siguiente ecuación _estimada_:
+
+
+\begin{equation}
+\widehat{y}_i= b_1 + b_2 x_i.
+\end{equation}
+
+Aunque esta línea podría bien trazarse a _ojo de buen cubero_, existen algunas técnicas formales, todas ellas involurando al _residual de estimación_. Este está definido como:
+
+\begin{aligned}
+e_i &= y_i - \hat{y}_i \\
+    &= y_i - b_1 - b_2 x_i
+\end{aligned}
+
+Naturalmente, el objetivo es encontrar  $b_1$ y $b_2$ tal que los valores de $e_i$ sean los más bajos posibles.

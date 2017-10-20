@@ -1,0 +1,10 @@
+book_filename: "ApEconometria"
+language:
+  label:
+    fig: 'Figura '
+    tab: 'Tabla '
+  ui:
+    chapter_name: 'Capítulo '
+repo: http://github.com/amosino/econometria--R_book
+output_dir: docs
+new_sesion: yes

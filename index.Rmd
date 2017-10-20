@@ -1,0 +1,16 @@
+--- 
+title: "Apuntes de Econometría"
+subtitle: "Aplicaciones con R"
+author: "Alejandro Mosiño"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+#bibliography: [econometria--R_book.bib]
+#biblio-style: apalike
+link-citations: yes
+github-repo: amosino/econometria--R_book
+description: "Este es un libro introductorio de econometría con enfoque práctico."
+---
+
+# Prologo {-}
