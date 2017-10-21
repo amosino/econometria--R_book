@@ -33,7 +33,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="motivacion.html">
+<link rel="prev" href="1-motivacion.html">
 
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
@@ -101,9 +101,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a></li>
-<li class="chapter" data-level="1" data-path="motivacion.html"><a href="motivacion.html"><i class="fa fa-check"></i><b>1</b> Motivación</a></li>
-<li class="chapter" data-level="2" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html"><i class="fa fa-check"></i><b>2</b> El modelo de regresión simple</a><ul>
-<li class="chapter" data-level="2.1" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html#minimizacion-de-sum_i1ne_i"><i class="fa fa-check"></i><b>2.1</b> Minimización de <span class="math inline">\(\sum_{i=1}^{N}e_i\)</span></a></li>
+<li class="chapter" data-level="1" data-path="1-motivacion.html"><a href="1-motivacion.html"><i class="fa fa-check"></i><b>1</b> Motivación</a></li>
+<li class="chapter" data-level="2" data-path="2-el-modelo-de-regresion-simple.html"><a href="2-el-modelo-de-regresion-simple.html"><i class="fa fa-check"></i><b>2</b> El modelo de regresión simple</a><ul>
+<li class="chapter" data-level="2.1" data-path="2-el-modelo-de-regresion-simple.html"><a href="2-el-modelo-de-regresion-simple.html#minimizacion-de-sum_i1ne_i"><i class="fa fa-check"></i><b>2.1</b> Minimización de <span class="math inline">\(\sum_{i=1}^{N}e_i\)</span></a></li>
 </ul></li>
 </ul>
 
@@ -124,13 +124,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="el-modelo-de-regresion-simple" class="section level1">
 <h1><span class="header-section-number">Capítulo 2</span> El modelo de regresión simple</h1>
-<p>Nota que la fórmula para <span class="math inline">\(y_i\)</span> que hemos aprendido (ecuación <a href="motivacion.html#eq:mrs">(1.1)</a> de la sección anterior) tiene dos componentes: 1) parte no aleatoria y 2) parte aleatoria.</p>
+<p>Nota que la fórmula para <span class="math inline">\(y_i\)</span> que hemos aprendido (ecuación <a href="1-motivacion.html#eq:mrs">(1.1)</a> de la sección anterior) tiene dos componentes: 1) parte no aleatoria y 2) parte aleatoria.</p>
 <p>La parte no aleatoria puede definirse como:</p>
 <span class="math display">\[\begin{equation}
 \mathbb{E}(y_i | x_i) = \beta_1 + \beta_2 x_i.
 \end{equation}\]</span>
 <p>La fórmula anterior implica que, si conociéramos los valores de <span class="math inline">\(\beta_1\)</span> y <span class="math inline">\(\beta_2\)</span>, la línea que estamos buscando partiría de <span class="math inline">\(\beta_1\)</span> y tendría pendiente <span class="math inline">\(\beta_2\)</span>.</p>
-<p>Por otra parte, el componente aleatorio es <span class="math inline">\(u_i\)</span>. En otras palabras, <span class="math inline">\(u_i\)</span> es un componente desconocido que no nos permite calcular con certeza los valores de <span class="math inline">\(y_i\)</span> a partir de la ecuación <a href="motivacion.html#eq:mrs">(1.1)</a>.</p>
+<p>Por otra parte, el componente aleatorio es <span class="math inline">\(u_i\)</span>. En otras palabras, <span class="math inline">\(u_i\)</span> es un componente desconocido que no nos permite calcular con certeza los valores de <span class="math inline">\(y_i\)</span> a partir de la ecuación <a href="1-motivacion.html#eq:mrs">(1.1)</a>.</p>
 <p>Pero, ¿porqué existe este <span class="math inline">\(u_i\)</span>?</p>
 <p>La inclusión de <span class="math inline">\(u_i\)</span> en el modelo se justifica por las siguientes razones:</p>
 <ul>
@@ -152,7 +152,7 @@ e_i &amp;= y_i - \widehat{y}_i \\
 <p>Naturalmente, el objetivo es encontrar <span class="math inline">\(b_1\)</span> y <span class="math inline">\(b_2\)</span> tal que los valores de <span class="math inline">\(e_i\)</span> sean los más bajos posibles.</p>
 <div id="minimizacion-de-sum_i1ne_i" class="section level2">
 <h2><span class="header-section-number">2.1</span> Minimización de <span class="math inline">\(\sum_{i=1}^{N}e_i\)</span></h2>
-<p>Como primera opción para estimar los coeficientes de la ecuación <a href="el-modelo-de-regresion-simple.html#eq:mrs-res">(2.1)</a>, podríamos intentar resolver el siguiente problema:</p>
+<p>Como primera opción para estimar los coeficientes de la ecuación <a href="2-el-modelo-de-regresion-simple.html#eq:mrs-res">(2.1)</a>, podríamos intentar resolver el siguiente problema:</p>
 <span class="math display">\[\begin{align}
 \min_{b_1,b_2}\sum_{i=1}^{N}e_i &amp;= \min_{b_1,b_2}\sum_{i=1}^{N}(y_i - \widehat{y}_i)\\
 &amp;= \min_{b_1,b_2}\sum_{i=1}^{N}(y_i - y_i - b_1 - b_2 x_i).
@@ -190,7 +190,7 @@ b2 &lt;-<span class="st"> </span><span class="dv">0</span>
           </div>
         </div>
       </div>
-<a href="motivacion.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="1-motivacion.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

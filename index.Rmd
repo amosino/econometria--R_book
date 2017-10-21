@@ -4,7 +4,6 @@ subtitle: "Aplicaciones con R"
 author: "Alejandro Mosiño"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-output: bookdown::gitbook
 documentclass: book
 #bibliography: [econometria--R_book.bib]
 #biblio-style: apalike
