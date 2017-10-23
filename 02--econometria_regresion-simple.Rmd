@@ -76,3 +76,70 @@ print(paste0("El valor estimado b2 es: ", b2))
 
 Compara este resultado con el presentado en la sección anterior. ¿Cuál te parece mejor?
 
+## El método de los mínimos cuadrados ordinarios: introducción
+
+El resultado de la sección anterior puede mejorarse si, en lugar de minimizar la suma de los residuales, minimizamos la _suma del cuadrado de los residuales_ (RSS por sus siglas en inglés). Este problema se conoce como el __método de los mínimos cuadrados ordinarios__ (MCO u OLS por sus siglas en inglés), y requiere encontrar los estimadores $b_1$ y $b_2$ tales que: 
+
+\begin{align}
+b_1 , b_2 &= \underset{b_1,b_2}{\arg\min}\left\{RSS\right\} \\
+RSS&= \sum_{i=1}^N e_i^2.
+\end{align}
+
+Para ver el funcionamiento de este método, consideremos el siguiente ejemplo:
+
+```{r mrsex1-tab, tidy=FALSE}
+x<-c(1,2)
+y<-c(3,5)
+yhat<-c("$b_1+b_2$", "$b_1+2b_2$")
+e<-c("3-$b_1-b_2$", "$5- b_1-2b_2$")
+lab<-c("$x_i$", "$y_i$", "$yhat_i$", "$e_i$")
+data_full<-data.frame(x,y,yhat,e)
+names(data_full)<-lab
+knitr::kable(
+data_full[,1:2], caption = 'Ejemplo: Mínimos cuadrados ordinarios. Dos observaciones.',
+booktabs = TRUE
+)
+```
+
+Para encontrar los estimadores del método de los MCO, seguimos los siguientes pasos:
+
+* Primero, calculamos $e_i$. Recordemos que este está definido como $e_i=y_i-\widehat{y}_i$. Los cálculos se muestran en la siguiente tabla:
+
+```{r mrsex1e-tab, tidy=FALSE}
+
+knitr::kable(
+data_full, caption = 'Ejemplo: Mínimos cuadrados ordinarios. Cálculo del residual.',
+booktabs = TRUE
+)
+```
+
+* Ahora podemos calcular el RSS. Este es:
+
+\begin{equation}
+RSS= (3-b_1-b_2)^2+(5-b_1-2b_2)^2
+\end{equation}
+
+* Minimizamos el $RSS$ con respecto a $b_1$ y $b_2$. Las condiciones de primer orden resultan en el siguiente sistema de dos ecuaciones con dos incógnitas:
+
+\begin{align}
+2b_1+3b_2-8&=0\\
+3b_1+5b_2-13&=0.
+\end{align}
+
+* Ahora Resolvemos el sistema. Resulta muy fácil encontrar que:
+
+\begin{align}
+b_1 &= 1\\
+b_2 &= 2.
+\end{align}
+
+* Finalmente, estamos listos para trazar la línea estimada. Esta se ve como en la siguiente figura:
+
+```{r mrsex1-fig, fig.cap='Solución por MCO. Datos ficticios', out.width='80%', fig.asp=.75, fig.align='center'}
+with(data_full,plot(x,y, xlab="x", ylab="y"))
+with(data_full,abline(lm(y ~ x)))
+```
+
+**Ejercicio**
+
+¿Cómo cambiaría el resultado anterior si agregamos un tercer punto con coordenadas $(x_3,y_3)=(3,6)$?

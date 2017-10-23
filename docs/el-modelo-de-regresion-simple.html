@@ -104,6 +104,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1" data-path="motivacion.html"><a href="motivacion.html"><i class="fa fa-check"></i><b>1</b> Motivación</a></li>
 <li class="chapter" data-level="2" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html"><i class="fa fa-check"></i><b>2</b> El modelo de regresión simple</a><ul>
 <li class="chapter" data-level="2.1" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html#minimizacion-de-sum_i1ne_i"><i class="fa fa-check"></i><b>2.1</b> Minimización de <span class="math inline">\(\sum_{i=1}^{N}e_i\)</span></a></li>
+<li class="chapter" data-level="2.2" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html#el-metodo-de-los-minimos-cuadrados-ordinarios-introduccion"><i class="fa fa-check"></i><b>2.2</b> El método de los mínimos cuadrados ordinarios: introducción</a></li>
 </ul></li>
 </ul>
 
@@ -182,6 +183,111 @@ b2 &lt;-<span class="st"> </span><span class="dv">0</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;El valor estimado b2 es: &quot;</span>, b2))</code></pre></div>
 <pre><code>## [1] &quot;El valor estimado b2 es: 0&quot;</code></pre>
 <p>Compara este resultado con el presentado en la sección anterior. ¿Cuál te parece mejor?</p>
+</div>
+<div id="el-metodo-de-los-minimos-cuadrados-ordinarios-introduccion" class="section level2">
+<h2><span class="header-section-number">2.2</span> El método de los mínimos cuadrados ordinarios: introducción</h2>
+<p>El resultado de la sección anterior puede mejorarse si, en lugar de minimizar la suma de los residuales, minimizamos la <em>suma del cuadrado de los residuales</em> (RSS por sus siglas en inglés). Este problema se conoce como el <strong>método de los mínimos cuadrados ordinarios</strong> (MCO u OLS por sus siglas en inglés), y requiere encontrar los estimadores <span class="math inline">\(b_1\)</span> y <span class="math inline">\(b_2\)</span> tales que:</p>
+<span class="math display">\[\begin{align}
+b_1 , b_2 &amp;= \underset{b_1,b_2}{\arg\min}\left\{RSS\right\} \\
+RSS&amp;= \sum_{i=1}^N e_i^2.
+\end{align}\]</span>
+<p>Para ver el funcionamiento de este método, consideremos el siguiente ejemplo:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x&lt;-<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)
+y&lt;-<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">5</span>)
+yhat&lt;-<span class="kw">c</span>(<span class="st">&quot;$b_1+b_2$&quot;</span>, <span class="st">&quot;$b_1+2b_2$&quot;</span>)
+e&lt;-<span class="kw">c</span>(<span class="st">&quot;3-$b_1-b_2$&quot;</span>, <span class="st">&quot;$5- b_1-2b_2$&quot;</span>)
+lab&lt;-<span class="kw">c</span>(<span class="st">&quot;$x_i$&quot;</span>, <span class="st">&quot;$y_i$&quot;</span>, <span class="st">&quot;$yhat_i$&quot;</span>, <span class="st">&quot;$e_i$&quot;</span>)
+data_full&lt;-<span class="kw">data.frame</span>(x,y,yhat,e)
+<span class="kw">names</span>(data_full)&lt;-lab
+knitr<span class="op">::</span><span class="kw">kable</span>(
+data_full[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dt">caption =</span> <span class="st">&#39;Ejemplo: Mínimos cuadrados ordinarios. Dos observaciones.&#39;</span>,
+<span class="dt">booktabs =</span> <span class="ot">TRUE</span>
+)</code></pre></div>
+<table>
+<caption><span id="tab:mrsex1-tab">Tabla 2.1: </span>Ejemplo: Mínimos cuadrados ordinarios. Dos observaciones.</caption>
+<thead>
+<tr class="header">
+<th align="right"><span class="math inline">\(x_i\)</span></th>
+<th align="right"><span class="math inline">\(y_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">5</td>
+</tr>
+</tbody>
+</table>
+<p>Para encontrar los estimadores del método de los MCO, seguimos los siguientes pasos:</p>
+<ul>
+<li>Primero, calculamos <span class="math inline">\(e_i\)</span>. Recordemos que este está definido como <span class="math inline">\(e_i=y_i-\widehat{y}_i\)</span>. Los cálculos se muestran en la siguiente tabla:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(
+data_full, <span class="dt">caption =</span> <span class="st">&#39;Ejemplo: Mínimos cuadrados ordinarios. Cálculo del residual.&#39;</span>,
+<span class="dt">booktabs =</span> <span class="ot">TRUE</span>
+)</code></pre></div>
+<table>
+<caption><span id="tab:mrsex1e-tab">Tabla 2.2: </span>Ejemplo: Mínimos cuadrados ordinarios. Cálculo del residual.</caption>
+<thead>
+<tr class="header">
+<th align="right"><span class="math inline">\(x_i\)</span></th>
+<th align="right"><span class="math inline">\(y_i\)</span></th>
+<th align="left"><span class="math inline">\(yhat_i\)</span></th>
+<th align="left"><span class="math inline">\(e_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="left"><span class="math inline">\(b_1+b_2\)</span></td>
+<td align="left">3-<span class="math inline">\(b_1-b_2\)</span></td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="left"><span class="math inline">\(b_1+2b_2\)</span></td>
+<td align="left"><span class="math inline">\(5- b_1-2b_2\)</span></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Ahora podemos calcular el RSS. Este es:</li>
+</ul>
+<span class="math display">\[\begin{equation}
+RSS= (3-b_1-b_2)^2+(5-b_1-2b_2)^2
+\end{equation}\]</span>
+<ul>
+<li>Minimizamos el <span class="math inline">\(RSS\)</span> con respecto a <span class="math inline">\(b_1\)</span> y <span class="math inline">\(b_2\)</span>. Las condiciones de primer orden resultan en el siguiente sistema de dos ecuaciones con dos incógnitas:</li>
+</ul>
+<span class="math display">\[\begin{align}
+2b_1+3b_2-8&amp;=0\\
+3b_1+5b_2-13&amp;=0.
+\end{align}\]</span>
+<ul>
+<li>Ahora Resolvemos el sistema. Resulta muy fácil encontrar que:</li>
+</ul>
+<span class="math display">\[\begin{align}
+b_1 &amp;= 1\\
+b_2 &amp;= 2.
+\end{align}\]</span>
+<ul>
+<li>Finalmente, estamos listos para trazar la línea estimada. Esta se ve como en la siguiente figura:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(data_full,<span class="kw">plot</span>(x,y, <span class="dt">xlab=</span><span class="st">&quot;x&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;y&quot;</span>))
+<span class="kw">with</span>(data_full,<span class="kw">abline</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:mrsex1-fig"></span>
+<img src="ApEconometria_files/figure-html/mrsex1-fig-1.png" alt="Solución por MCO. Datos ficticios" width="80%" />
+<p class="caption">
+Figura 2.1: Solución por MCO. Datos ficticios
+</p>
+</div>
+<p><strong>Ejercicio</strong></p>
+<p>¿Cómo cambiaría el resultado anterior si agregamos un tercer punto con coordenadas <span class="math inline">\((x_3,y_3)=(3,6)\)</span>?</p>
 
 </div>
 </div>
