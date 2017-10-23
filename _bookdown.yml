@@ -7,4 +7,4 @@ language:
     chapter_name: 'Capítulo '
 repo: http://github.com/amosino/econometria--R_book
 output_dir: docs
-new_sesion: yes
+delete_merged_file: true
