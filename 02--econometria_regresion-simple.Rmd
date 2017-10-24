@@ -143,3 +143,59 @@ with(data_full,abline(lm(y ~ x)))
 **Ejercicio**
 
 ¿Cómo cambiaría el resultado anterior si agregamos un tercer punto con coordenadas $(x_3,y_3)=(3,6)$?
+
+## El método de los mínimos cuadrados ordinarios
+
+El método de la sección anterior puede generalizarse para cualquier número de observaciones, $N$. En general, el problema consiste en:
+
+\begin{align}
+\min_{b_1,b_2} RSS &= \min_{b_1,b_2} \sum_{i=1}^N e_i^2 \\
+&=\min_{b_1,b_2} \sum_{i=1}^N (y_i - \widehat{y})^2 \\
+&=\min_{b_1,b_2} \sum_{i=1}^N (y_i - b_1 - b_2x_i)^2.
+\end{align}
+
+Las condiciones de primer orden de este problema se conocen como _ecuaciones normales de los coeficientes de regresión_:
+
+\begin{align}
+N b_1 - \sum_{i=1}^N y_i + b_2 \sum_{i=1}^N x_i &= 0 \\
+b_2 \sum_{i=1}^N x_i^2 - \sum_{i=1}^N x_i y_i + b_1 \sum_{i=1}^N x_i &=0. 
+\end{align}
+
+La solución a este sistema resulta en los _estimadores de MCO_ para $\beta_1$ y $\beta_2$. Estos son:
+
+\begin{align}
+b_1 &= \overline{y}-b_2 \overline{x}\\
+b_2 &= \frac{\sum_{i=1}^N(x_i - \overline{x})(y_i - \overline{y})}{\sum_{i=1}^N(x_i - \overline{x})^2}. (\#eq:est-mco)
+\end{align}
+
+**Ejercicio**
+
+Deriva las ecuaciones en el sistema \@ref(eq:est-mco).
+
+**Ejercicio**
+
+Considera los siguientes datos que miden la relación entre el promedio escolar y el ingreso familiar:
+
+```{r}
+data_ex<-read.csv(file.path("/Users","alejandro.mosino","Documents",
+"github","econometria--R_book","_data_econometria","prom_ing.csv"), header=TRUE, sep=",")
+print(data_ex)
+```
+
+Utiliza las ecuaciones del sistema \@ref(eq:est-mco) para encontrar los estimadores de MCO, $b_1$ y $b_2$. Comenta.
+
+**Ejercicio**
+
+Muestra que $b_2$ en el sistema \@ref(eq:est-mco) también puede escribirse como:
+
+* $b_2 = \frac{\text{cov}(x,y)}{\text{var}(x)}$
+* $b_2 = \frac{\sum_{i=1}^N x_i y_i - N \overline{x}\overline{y}}{\sum_{i=1}^N x_i^2 - N \overline{x}^2}$
+* $b_2 = \frac{\sum_{i=1}^N (x_i -\overline{x}) y_i}{\sum_{i=1}^N (x_i - \overline{x}^2)}$
+
+**Ejercicio**
+
+Muestra que:
+
+* $\overline{e} = 0$
+* $\overline{\widehat{y}_i} = \overline{y}$
+* $\text{cov}(\widehat{y}_i,e_i)=0$

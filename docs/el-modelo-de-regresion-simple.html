@@ -105,6 +105,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html"><i class="fa fa-check"></i><b>2</b> El modelo de regresión simple</a><ul>
 <li class="chapter" data-level="2.1" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html#minimizacion-de-sum_i1ne_i"><i class="fa fa-check"></i><b>2.1</b> Minimización de <span class="math inline">\(\sum_{i=1}^{N}e_i\)</span></a></li>
 <li class="chapter" data-level="2.2" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html#el-metodo-de-los-minimos-cuadrados-ordinarios-introduccion"><i class="fa fa-check"></i><b>2.2</b> El método de los mínimos cuadrados ordinarios: introducción</a></li>
+<li class="chapter" data-level="2.3" data-path="el-modelo-de-regresion-simple.html"><a href="el-modelo-de-regresion-simple.html#el-metodo-de-los-minimos-cuadrados-ordinarios"><i class="fa fa-check"></i><b>2.3</b> El método de los mínimos cuadrados ordinarios</a></li>
 </ul></li>
 </ul>
 
@@ -288,6 +289,56 @@ Figura 2.1: Solución por MCO. Datos ficticios
 </div>
 <p><strong>Ejercicio</strong></p>
 <p>¿Cómo cambiaría el resultado anterior si agregamos un tercer punto con coordenadas <span class="math inline">\((x_3,y_3)=(3,6)\)</span>?</p>
+</div>
+<div id="el-metodo-de-los-minimos-cuadrados-ordinarios" class="section level2">
+<h2><span class="header-section-number">2.3</span> El método de los mínimos cuadrados ordinarios</h2>
+<p>El método de la sección anterior puede generalizarse para cualquier número de observaciones, <span class="math inline">\(N\)</span>. En general, el problema consiste en:</p>
+<span class="math display">\[\begin{align}
+\min_{b_1,b_2} RSS &amp;= \min_{b_1,b_2} \sum_{i=1}^N e_i^2 \\
+&amp;=\min_{b_1,b_2} \sum_{i=1}^N (y_i - \widehat{y})^2 \\
+&amp;=\min_{b_1,b_2} \sum_{i=1}^N (y_i - b_1 - b_2x_i)^2.
+\end{align}\]</span>
+<p>Las condiciones de primer orden de este problema se conocen como <em>ecuaciones normales de los coeficientes de regresión</em>:</p>
+<span class="math display">\[\begin{align}
+N b_1 - \sum_{i=1}^N y_i + b_2 \sum_{i=1}^N x_i &amp;= 0 \\
+b_2 \sum_{i=1}^N x_i^2 - \sum_{i=1}^N x_i y_i + b_1 \sum_{i=1}^N x_i &amp;=0. 
+\end{align}\]</span>
+<p>La solución a este sistema resulta en los <em>estimadores de MCO</em> para <span class="math inline">\(\beta_1\)</span> y <span class="math inline">\(\beta_2\)</span>, estos son:</p>
+<span class="math display" id="eq:est-mco">\[\begin{align}
+b_1 &amp;= \overline{y}-b_2 \overline{x}\\
+b_2 &amp;= \frac{\sum_{i=1}^N(x_i - \overline{x})(y_i - \overline{y})}{\sum_{i=1}^N(x_i - \overline{x})^2}. \tag{2.2}
+\end{align}\]</span>
+<p><strong>Ejercicio</strong></p>
+<p>Deriva las ecuaciones en el sistema <a href="el-modelo-de-regresion-simple.html#eq:est-mco">(2.2)</a>.</p>
+<p><strong>Ejercicio</strong></p>
+<p>Considera los siguientes datos que miden la relación entre el promedio escolar y el ingreso familiar:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_ex&lt;-<span class="kw">read.csv</span>(<span class="kw">file.path</span>(<span class="st">&quot;/Users&quot;</span>,<span class="st">&quot;alejandro.mosino&quot;</span>,<span class="st">&quot;Documents&quot;</span>,
+<span class="st">&quot;github&quot;</span>,<span class="st">&quot;econometria--R_book&quot;</span>,<span class="st">&quot;_data_econometria&quot;</span>,<span class="st">&quot;prom_ing.csv&quot;</span>), <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>)
+<span class="kw">print</span>(data_ex)</code></pre></div>
+<pre><code>##   Promedio Ingreso_Familiar
+## 1        8               21
+## 2        6               15
+## 3        7               15
+## 4        4                9
+## 5        6               12
+## 6        7               18
+## 7        5                6
+## 8        5               12</code></pre>
+<p>Encuentra los estimadores de MCO, <span class="math inline">\(b_1\)</span> y <span class="math inline">\(b_2\)</span>. Comenta.</p>
+<p><strong>Ejercicio</strong></p>
+<p>Muestra que <span class="math inline">\(b_2\)</span> en el sistema <a href="el-modelo-de-regresion-simple.html#eq:est-mco">(2.2)</a> también puede escribirse como:</p>
+<ul>
+<li><span class="math inline">\(b_2 = \frac{\text{cov}(x,y)}{\text{var}(x)}\)</span></li>
+<li><span class="math inline">\(b_2 = \frac{\sum_{i=1}^N x_i y_i - N \overline{x}\overline{y}}{\sum_{i=1}^N x_i^2 - N \overline{x}^2}\)</span></li>
+<li><span class="math inline">\(b_2 = \frac{\sum_{i=1}^N (x_i -\overline{x}) y_i}{\sum_{i=1}^N (x_i - \overline{x}^2)}\)</span></li>
+</ul>
+<p><strong>Ejercicio</strong></p>
+<p>Muestra que:</p>
+<ul>
+<li><span class="math inline">\(\overline{e} = 0\)</span></li>
+<li><span class="math inline">\(\overline{\widehat{y}_i} = \overline{y}\)</span></li>
+<li><span class="math inline">\(\text{cov}(\widehat{y}_i,e_i)=0\)</span></li>
+</ul>
 
 </div>
 </div>
